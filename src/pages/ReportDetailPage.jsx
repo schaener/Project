@@ -5,6 +5,7 @@ import { downloadFile, toCSV } from '../utils/finance.js';
 import { formatCompact, formatDate, formatIDR } from '../utils/format.js';
 import { monthLabel, parseDateStr } from '../utils/date.js';
 import { ErrorBox, PageHeader, Spinner, StatCard } from '../components/ui.jsx';
+import { IS_DEMO } from '../utils/env.js';
 import TransactionList from '../components/TransactionList.jsx';
 
 function Breakdown({ title, rows, total }) {
@@ -45,12 +46,16 @@ export default function ReportDetailPage() {
         <Link to="/reports" className="btn btn-ghost no-print">
           ← Kembali
         </Link>
+        {!IS_DEMO && (
+          <>
         <button className="btn btn-ghost no-print" onClick={() => downloadFile(`${r.title}.csv`, toCSV(r.transactions || []))}>
           ⬇ CSV
         </button>
         <button className="btn btn-primary no-print" onClick={() => window.print()}>
           🖨 Cetak / PDF
         </button>
+          </>
+        )}
       </PageHeader>
       <section className="stats-grid">
         <StatCard label="Pemasukan" value={formatIDR(s.totalIncome)} tone="good" />

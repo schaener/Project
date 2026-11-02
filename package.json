@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "vitest run"
+    "test": "vitest run",
+    "dev:demo": "vite --mode demo",
+    "build:demo": "vite build --mode demo && node scripts/inline-demo.mjs"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.13.0",

@@ -5,6 +5,7 @@ import { useStartChatMutation } from '../services/chatApi.js';
 import { selectUser } from '../features/auth/authSlice.js';
 import { notify } from '../features/ui/uiSlice.js';
 import { formatDate, formatIDR } from '../utils/format.js';
+import { confirmAction } from '../utils/env.js';
 import { ErrorBox, PageHeader, Spinner, StatCard } from '../components/ui.jsx';
 
 export default function SplitBillDetailPage() {
@@ -31,8 +32,12 @@ export default function SplitBillDetailPage() {
   ].join('\n');
 
   const copy = async () => {
-    await navigator.clipboard.writeText(summaryText);
-    dispatch(notify('Ringkasan disalin — tempel di WhatsApp', 'success'));
+    try {
+      await navigator.clipboard.writeText(summaryText);
+      dispatch(notify('Ringkasan disalin, tinggal tempel di WhatsApp', 'success'));
+    } catch {
+      dispatch(notify('Browser menolak akses clipboard', 'error'));
+    }
   };
 
   const openChat = async () => {
@@ -45,7 +50,7 @@ export default function SplitBillDetailPage() {
   };
 
   const onDelete = async () => {
-    if (!window.confirm('Hapus split bill ini?')) return;
+    if (!confirmAction('Hapus split bill ini?')) return;
     await remove(id);
     navigate('/split');
   };

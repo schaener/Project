@@ -5,6 +5,7 @@ import { useCreateReportMutation, useDeleteReportMutation, useGetReportsQuery } 
 import { notify } from '../features/ui/uiSlice.js';
 import { datePresets, parseDateStr } from '../utils/date.js';
 import { formatDate, formatIDR } from '../utils/format.js';
+import { confirmAction } from '../utils/env.js';
 import DateRangeFilter from '../components/DateRangeFilter.jsx';
 import { EmptyState, ErrorBox, Modal, PageHeader, Spinner } from '../components/ui.jsx';
 
@@ -51,7 +52,7 @@ export default function ReportsPage() {
   const [remove] = useDeleteReportMutation();
 
   const onDelete = async (r) => {
-    if (!window.confirm(`Hapus "${r.title}"?`)) return;
+    if (!confirmAction(`Hapus "${r.title}"?`)) return;
     const res = await remove(r.id);
     dispatch(notify(res.error ? res.error.message : 'Laporan dihapus', res.error ? 'error' : 'success'));
   };

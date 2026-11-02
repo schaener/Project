@@ -13,6 +13,7 @@ import { selectUser } from '../features/auth/authSlice.js';
 import { notify, postDraftSet } from '../features/ui/uiSlice.js';
 import { formatIDR, timeAgo } from '../utils/format.js';
 import { EXPENSE_CATEGORIES, INCOME_CATEGORIES } from '../utils/constants.js';
+import { confirmAction } from '../utils/env.js';
 import { Avatar, EmptyState, ErrorBox, PageHeader, Spinner } from '../components/ui.jsx';
 
 const MOODS = ['🎉 Hemat', '😅 Boros', '💡 Tips', '🎯 Target', '🛍️ Belanja', '🙏 Syukur'];
@@ -154,7 +155,7 @@ function Post({ post, me }) {
           </div>
         </div>
         {post.authorId === me.uid && (
-          <button className="icon-btn" title="Hapus" onClick={() => window.confirm('Hapus postingan?') && remove(post.id)}>
+          <button className="icon-btn" title="Hapus" onClick={() => confirmAction('Hapus postingan?') && remove(post.id)}>
             🗑️
           </button>
         )}

@@ -5,6 +5,7 @@ import { searchRangeChanged } from '../features/ui/uiSlice.js';
 import { filterTransactions, summarize, toCSV, downloadFile } from '../utils/finance.js';
 import { formatIDR } from '../utils/format.js';
 import { EXPENSE_CATEGORIES, INCOME_CATEGORIES } from '../utils/constants.js';
+import { IS_DEMO } from '../utils/env.js';
 import DateRangeFilter from '../components/DateRangeFilter.jsx';
 import TransactionList from '../components/TransactionList.jsx';
 import { ErrorBox, PageHeader, Spinner, StatCard } from '../components/ui.jsx';
@@ -25,6 +26,7 @@ export default function SearchPage() {
   return (
     <div className="page">
       <PageHeader title="Cari transaksi" subtitle="Filter berdasarkan rentang tanggal, kata kunci, kategori & nominal">
+        {!IS_DEMO && (
         <button
           className="btn btn-ghost"
           disabled={!results.length}
@@ -32,6 +34,7 @@ export default function SearchPage() {
         >
           ⬇ Export CSV
         </button>
+        )}
       </PageHeader>
       <div className="card filters">
         <DateRangeFilter value={range} onChange={(r) => dispatch(searchRangeChanged(r))} />

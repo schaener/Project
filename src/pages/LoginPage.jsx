@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { loginWithGoogle } from '../features/auth/authThunks.js';
+import { IS_DEMO } from '../utils/env.js';
 
 export default function LoginPage() {
   const dispatch = useDispatch();
@@ -21,6 +22,11 @@ export default function LoginPage() {
           </svg>
           Masuk dengan Google
         </button>
+        {IS_DEMO && (
+          <p className="demo-note">
+            Mode demo: tombol ini langsung masuk sebagai pengguna contoh. Data contoh disimpan di browser ini saja.
+          </p>
+        )}
         {error && <div className="error-box">{error}</div>}
       </div>
     </div>

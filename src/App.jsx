@@ -1,6 +1,7 @@
 import { lazy, Suspense, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, MemoryRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { IS_DEMO } from './utils/env.js';
 import { isFirebaseConfigured } from './firebase.js';
 import { listenToAuth } from './features/auth/authThunks.js';
 import { selectAuthStatus } from './features/auth/authSlice.js';
@@ -20,6 +21,9 @@ const SplitBillDetailPage = lazy(() => import('./pages/SplitBillDetailPage.jsx')
 const ChatPage = lazy(() => import('./pages/ChatPage.jsx'));
 const FeedPage = lazy(() => import('./pages/FeedPage.jsx'));
 
+// The demo runs inside an embedded preview where URL paths can't change.
+const Router = IS_DEMO ? MemoryRouter : BrowserRouter;
+
 export default function App() {
   const dispatch = useDispatch();
   const status = useSelector(selectAuthStatus);
@@ -30,7 +34,7 @@ export default function App() {
   if (status === 'loading') return <Spinner label="Menyiapkan aplikasi..." />;
 
   return (
-    <BrowserRouter>
+    <Router>
       {status === 'unauthenticated' ? (
         <Routes>
           <Route path="*" element={<LoginPage />} />
@@ -54,6 +58,6 @@ export default function App() {
           </Routes>
         </Suspense>
       )}
-    </BrowserRouter>
+    </Router>
   );
 }

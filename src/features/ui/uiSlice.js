@@ -1,14 +1,14 @@
 import { createSlice, nanoid } from '@reduxjs/toolkit';
 import { datePresets } from '../../utils/date.js';
 
-const thisMonth = datePresets()[3];
+const last30Days = datePresets()[2];
 
 const uiSlice = createSlice({
   name: 'ui',
   initialState: {
     toasts: [],
     // Shared date range for search so it survives navigation
-    searchRange: { from: thisMonth.from, to: thisMonth.to },
+    searchRange: { from: last30Days.from, to: last30Days.to },
     // Pre-filled draft when sharing a transaction to the feed
     postDraft: null,
   },

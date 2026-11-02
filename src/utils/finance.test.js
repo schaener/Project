@@ -62,3 +62,12 @@ describe('summarize & filter', () => {
     expect(filterTransactions(tx, { type: 'expense', min: 100000 }).map((t) => t.id)).toEqual(['3']);
   });
 });
+
+import { initials } from './format.js';
+describe('initials', () => {
+  it('skips emoji and keeps letters', () => {
+    expect(initials('🏡 Villa Puncak')).toBe('VP');
+    expect(initials('Rina Wijaya')).toBe('RW');
+    expect(initials('')).toBe('?');
+  });
+});

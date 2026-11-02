@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { formatDate, formatIDR } from '../utils/format.js';
 import { useDeleteTransactionMutation } from '../services/transactionsApi.js';
 import { notify, postDraftSet } from '../features/ui/uiSlice.js';
+import { confirmAction } from '../utils/env.js';
 import TransactionForm from './TransactionForm.jsx';
 import { EmptyState, Modal } from './ui.jsx';
 
@@ -16,7 +17,7 @@ export default function TransactionList({ items, editable = true, emptyText = 'B
   if (!items?.length) return <EmptyState title={emptyText} />;
 
   const onDelete = async (t) => {
-    if (!window.confirm('Hapus transaksi ini?')) return;
+    if (!confirmAction('Hapus transaksi ini?')) return;
     const res = await remove(t.id);
     dispatch(notify(res.error ? res.error.message : 'Transaksi dihapus', res.error ? 'error' : 'success'));
   };
